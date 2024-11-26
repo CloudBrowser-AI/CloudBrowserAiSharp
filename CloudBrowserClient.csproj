@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageDescription>Client for connection with CloudBrowser.</PackageDescription>
+    <PackageTags>puppeteersharp cloudbrowser connector</PackageTags>
+  </PropertyGroup>
+
+</Project>

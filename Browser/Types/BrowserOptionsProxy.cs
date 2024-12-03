@@ -1,5 +1,4 @@
-﻿
-namespace CloudBrowserClient.Types;
+﻿namespace CloudBrowserClient.Browser.Types;
 
 public class BrowserOptionsProxy {
     public string Host { get; set; }

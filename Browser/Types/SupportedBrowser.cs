@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Types;
+namespace CloudBrowserClient.Browser.Types;
 public enum SupportedBrowser {
     Chrome = 0,
     //Firefox = 1,

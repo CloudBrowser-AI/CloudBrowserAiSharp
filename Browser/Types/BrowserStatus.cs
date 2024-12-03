@@ -1,5 +1,4 @@
-﻿
-namespace CloudBrowserClient.Types;
+﻿namespace CloudBrowserClient.Browser.Types;
 
 public enum BrowserStatus {
     Unknown = 0,

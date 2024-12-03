@@ -12,12 +12,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 
-namespace CloudBrowserClient.Client;
+namespace CloudBrowserClient;
 
 internal static class Json {
     public const string MediaType = "application/json";
 
-    static readonly JsonSerializerOptions opts = new () {
+    static readonly JsonSerializerOptions opts = new() {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -25,12 +25,12 @@ internal static class Json {
     };
 
     public static T ReadFrom<T>(Stream reader) {
-        using StreamReader streamReader = new (reader);
+        using StreamReader streamReader = new(reader);
         return JsonSerializer.Deserialize<T>(streamReader.ReadToEnd(), opts);
     }
 
     public static void WriteTo<T>(Stream writer, T body) {
-        using StreamWriter streamWriter = new (writer);
+        using StreamWriter streamWriter = new(writer);
         streamWriter.Write(JsonSerializer.Serialize(body, typeof(T), opts));
     }
 
@@ -39,16 +39,16 @@ internal static class Json {
     public static Task WriteToAsync<T>(Stream writer, T body, CancellationToken ct) => JsonSerializer.SerializeAsync(writer, body, typeof(T), opts, ct);
 }
 
-internal abstract class ClientBase (Uri baseAddress) {
+internal abstract class ClientBase(Uri baseAddress) {
 
-    protected HttpClient httpClient { get; set; } = new () {
+    protected HttpClient httpClient { get; set; } = new() {
         BaseAddress = baseAddress
     };
 
     protected string BaseUrl => GetClient()?.BaseAddress?.ToString().TrimEnd('/') ?? "";
 
     static HttpRequestMessage GenerateMessage(string url, IDictionary<string, string> addedHeaders = null, HttpMethod method = null) {
-        HttpRequestMessage httpRequestMessage = new () {
+        HttpRequestMessage httpRequestMessage = new() {
             Method = method ?? HttpMethod.Get,
             RequestUri = new Uri(url)
         };
@@ -83,13 +83,13 @@ internal abstract class ClientBase (Uri baseAddress) {
             "br" => new BrotliStream(stream, CompressionMode.Decompress, false),
             _ => stream,
         };
-        MemoryStream copy = new ();
+        MemoryStream copy = new();
         await stream2.CopyToAsync(copy).ConfigureAwait(false);
         copy.Position = 0L;
         return copy;
     }
 
-    static async Task<HttpResponseMessage> ReadLogic(HttpClient cli, HttpRequestMessage rq,  CancellationToken ct, Type expectedResponseType = null) {
+    static async Task<HttpResponseMessage> ReadLogic(HttpClient cli, HttpRequestMessage rq, CancellationToken ct, Type expectedResponseType = null) {
         Stopwatch sw = Stopwatch.StartNew();
         try {
             Task<HttpResponseMessage> rsT = cli.SendAsync(rq, HttpCompletionOption.ResponseContentRead, ct);
@@ -117,7 +117,7 @@ internal abstract class ClientBase (Uri baseAddress) {
     }
 
     static async Task SerializeRequest<TInput>(HttpRequestMessage rq, TInput body, CancellationToken ct) {
-        MemoryStream ms = new ();
+        MemoryStream ms = new();
         Stream writer = ms;
         string encodingHeader = SetRequestContentAndStream(ref writer);
         await Json.WriteToAsync(writer, body, ct).ConfigureAwait(false);
@@ -161,7 +161,7 @@ internal abstract class ClientBase (Uri baseAddress) {
             return GetClient();
         }
 
-        HttpClient httpClient = new ();
+        HttpClient httpClient = new();
         httpClient.Timeout = timeout.GetValueOrDefault();
         return httpClient;
     }
@@ -180,7 +180,7 @@ internal abstract class ClientBase (Uri baseAddress) {
         return await Read<TOutput>(cli, rq, ct).ConfigureAwait(false);
     }
 
-    protected async Task DoPost<TInput>(string url, TInput body, TimeSpan? timeout = null, CancellationToken ct = default(CancellationToken)) {
+    protected async Task DoPost<TInput>(string url, TInput body, TimeSpan? timeout = null, CancellationToken ct = default) {
         HttpClient cli = GetClient(timeout);
         HttpRequestMessage rq = GenerateMessage(url);
         rq.Method = HttpMethod.Post;

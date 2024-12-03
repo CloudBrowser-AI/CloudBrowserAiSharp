@@ -1,5 +1,4 @@
-﻿
-namespace CloudBrowserClient.Types;
+﻿namespace CloudBrowserClient.Browser.Types;
 
 public class BrowserOptions {
     public string[] Args { get; set; }
@@ -11,4 +10,5 @@ public class BrowserOptions {
     public BrowserOptionsProxy Proxy { get; set; }
     public int? KeepOpen { get; set; }
     public string Label { get; set; }
+    public string Type { get; set; }
 }

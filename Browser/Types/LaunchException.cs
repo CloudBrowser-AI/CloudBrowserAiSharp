@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Types;
+namespace CloudBrowserClient.Browser.Types;
 public class AuthorizationException : Exception {
 
 }
@@ -17,6 +17,6 @@ public class NoUnitsException : Exception {
 public class BrowserLimitException : Exception {
 
 }
-public class UnknownException: Exception {
+public class UnknownException : Exception {
 
 }

@@ -1,12 +1,12 @@
-﻿
-namespace CloudBrowserClient.Types.Request;
+﻿namespace CloudBrowserClient.Browser.Types.Request;
 
 internal class StartRemoteDesktopRequest {
     public string Address { get; set; }
 
     public StartRemoteDesktopRequest() { }
 
-    public StartRemoteDesktopRequest(string address) {
+    public StartRemoteDesktopRequest(string address)
+    {
         Address = address;
     }
 }

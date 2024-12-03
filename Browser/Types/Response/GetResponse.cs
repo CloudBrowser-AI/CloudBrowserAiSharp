@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudBrowserClient.Types.Response;
+namespace CloudBrowserClient.Browser.Types.Response;
 
 public class GetResponse {
     public BrowserStatus Error { get; set; }

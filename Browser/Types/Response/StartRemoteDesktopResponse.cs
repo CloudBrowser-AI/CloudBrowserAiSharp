@@ -1,5 +1,4 @@
-﻿
-namespace CloudBrowserClient.Types.Response;
+﻿namespace CloudBrowserClient.Browser.Types.Response;
 
 public class StartRemoteDesktopResponse {
     public bool Success { get; set; }

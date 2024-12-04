@@ -10,7 +10,7 @@ public enum AIError : byte {
 }
 
 public class AIResponse {
-    public BrowserStatus Status { get; set; }
+    public ResponseStatus Status { get; set; }
     public string Response { get; set; }
     public AIError? OpenAiError { get; set; }
 }

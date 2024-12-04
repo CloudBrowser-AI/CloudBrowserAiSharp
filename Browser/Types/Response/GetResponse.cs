@@ -3,7 +3,7 @@
 namespace CloudBrowserClient.Browser.Types.Response;
 
 public class GetResponse {
-    public BrowserStatus Error { get; set; }
+    public ResponseStatus Error { get; set; }
     public Session[] Sessions { get; set; }
 }
 

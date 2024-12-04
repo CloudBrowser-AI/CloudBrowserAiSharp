@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using CloudBrowserClient.AI.Client;
 using CloudBrowserClient.AI.Types;
 using CloudBrowserClient.AI.Types.Response;
-using CloudBrowserClient.Browser.Types;
-using CloudBrowserClient.Browser.Types.Response;
+using CloudBrowserClient.Serialization;
 using CloudBrowserPublicApi.Shared.Data.AI.Request;
 
 namespace CloudBrowserClient.AI;
@@ -23,5 +22,8 @@ public class AIService(string _apiToken, AIOptions defaultAIOptions = null) {
     public Task<AIResponse> ToJSON(string apiKey, ToJSONRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) => _client.ToJSON(apiKey, new(rq, aiOptions ?? defaultAIOptions), timeout, ct);
     public Task<AIResponse> ToCSV(string apiKey, ToCSVRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) => _client.ToCSV(apiKey, new(rq, aiOptions ?? defaultAIOptions), timeout, ct);
     public Task<AIResponse> ToMarkdown(string apiKey, ToMarkdownRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) => _client.ToMarkdown(apiKey, new(rq, aiOptions ?? defaultAIOptions), timeout, ct);
+
+
+    public Task<T> To<T>(string apiKey, string html, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) => Serializer.ToObject<T>(_client.ToJSON(apiKey, new(new() { Html = html, ResponseFormat = Serializer.ToResponseFormat<T>()}, aiOptions ?? defaultAIOptions), timeout, ct));
 
 }

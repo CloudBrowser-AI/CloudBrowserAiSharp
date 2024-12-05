@@ -7,11 +7,9 @@ using CloudBrowserPublicApi.Shared.Data.AI.Request;
 
 namespace CloudBrowserClient.AI.Client;
 
-internal class AIApiClient : ClientBase {
-    public AIApiClient() : base(new Uri("https://production.cloudbrowser.ai")) {
+internal class AIApiClient() : ClientBase(new Uri("https://production.cloudbrowser.ai")) {
 
-    }
-
+    public Uri BaseAddress { get => GetClient().BaseAddress; set => GetClient().BaseAddress = value; }
 
     public Task<AIResponse> Query(string apiKey, QueryRequestI rq, TimeSpan? timeout = null, CancellationToken ct = default) => Post<AIResponse, QueryRequestI>(apiKey, "query", rq, timeout, ct);
     public Task<AIResponse> Summarize(string apiKey, SummarizeRequestI rq, TimeSpan? timeout = null, CancellationToken ct = default) => Post<AIResponse, SummarizeRequestI>(apiKey, "summarize", rq, timeout, ct);

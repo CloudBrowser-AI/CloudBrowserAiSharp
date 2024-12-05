@@ -10,6 +10,7 @@ namespace CloudBrowserClient.Browser;
 public class BrowserService(string _apiToken){
 
     readonly BrowserApiClient _client = new();
+    public Uri BaseAddress { get => _client.BaseAddress; set => _client.BaseAddress = value; }
 
     public Task<OpenResponse> Open(BrowserOptions options = null, TimeSpan? timeout = null, CancellationToken ct = default) => _client.Open(_apiToken, options, timeout: timeout, ct: ct);
 

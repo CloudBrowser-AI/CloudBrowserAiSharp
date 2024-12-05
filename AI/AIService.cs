@@ -12,6 +12,8 @@ namespace CloudBrowserClient.AI;
 public class AIService(string _apiToken, AIOptions defaultAIOptions = null) {
 
     readonly AIApiClient _client = new();
+    public Uri BaseAddress { get => _client.BaseAddress; set => _client.BaseAddress = value; }
+
 
 
     public Task<AIResponse> Query(QueryRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) => _client.Query(_apiToken, new(rq, aiOptions ?? defaultAIOptions), timeout, ct);

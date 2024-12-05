@@ -3,9 +3,11 @@ using System.Reflection.PortableExecutable;
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-public class TranslateRequest {
+public class TranslateRequestT {
     public string Text { get; set; }
     public string IsoLang { get; set; }
+}
+public class TranslateRequest: TranslateRequestT {
     public string ResponseFormat { get; set; }
 }
 

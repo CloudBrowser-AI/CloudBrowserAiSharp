@@ -17,7 +17,7 @@ internal static class TypeSerializer {
         JsonObject superRoot = new() {
             ["type"] = "object",
             ["properties"] = new JsonObject {
-                ["root"] = root
+                ["response"] = root
             }
         };
         if (refs.Count > 0)

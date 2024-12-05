@@ -8,12 +8,12 @@ internal static class Serializer {
     public static string ToResponseFormat<T>() => TypeSerializer.GetSchema<T>();
 
     internal class Wrapper<T> {
-        public T Root { get; set; }
+        public T Response { get; set; }
     }
     public static async Task<T> ToObject<T>(Task<AIResponse> t) {
         var rp = await t.ConfigureAwait(false);
         var ob = ToObject<Wrapper<T>>(rp.Response, rp.Status, rp.OpenAiError);
-        return ob.Root;
+        return ob.Response;
     }
     public static T ToObject<T>(AIResponse rp) => ToObject<T>(rp.Response, rp.Status, rp.OpenAiError);
 

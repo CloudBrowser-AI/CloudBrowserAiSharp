@@ -2,9 +2,12 @@
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-public class SummarizeRequest {
+public class SummarizeRequestT {
     public string Html { get; set; }
     public string IsoLang { get; set; }
+}
+
+public class SummarizeRequest: SummarizeRequestT {
     public string ResponseFormat { get; set; }
 }
 

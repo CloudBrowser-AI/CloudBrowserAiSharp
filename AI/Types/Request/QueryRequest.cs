@@ -2,9 +2,12 @@
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-public class QueryRequest {
+public class QueryRequestT {
     public string Html { get; set; }
     public string Promt { get; set; }
+}
+
+public class QueryRequest: QueryRequestT {
     public string ResponseFormat { get; set; }
 }
 

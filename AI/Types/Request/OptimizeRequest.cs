@@ -2,9 +2,12 @@
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-public class OptimizeRequest {
+public class OptimizeRequestT {
     public string Text { get; set; }
     public string Instruction { get; set; }
+}
+
+public class OptimizeRequest: OptimizeRequestT {
     public string ResponseFormat { get; set; }
 }
 

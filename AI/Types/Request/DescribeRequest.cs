@@ -2,9 +2,12 @@
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-public class DescribeRequest {
+public class DescribeRequestT {
     public string Question { get; set; }
     public string Base64Image { get; set; }
+}
+
+public class DescribeRequest: DescribeRequestT {
     public string ResponseFormat { get; set; }
 }
 

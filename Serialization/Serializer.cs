@@ -1,6 +1,8 @@
 ﻿using CloudBrowserClient.AI.Types.Response;
 using CloudBrowserClient.Browser.Types;
 using CloudBrowserClient.Exceptions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CloudBrowserClient.Serialization;
@@ -8,6 +10,7 @@ internal static class Serializer {
     public static string ToResponseFormat<T>() => TypeSerializer.GetSchema<T>();
 
     internal class Wrapper<T> {
+        [JsonPropertyName("response")]
         public T Response { get; set; }
     }
     public static async Task<T> ToObject<T>(Task<AIResponse> t) {
@@ -19,7 +22,8 @@ internal static class Serializer {
 
     public static T ToObject<T>(string response, ResponseStatus status, AIError? aIError = null) {
         ToException(status, aIError);
-        return System.Text.Json.JsonSerializer.Deserialize<T>(response);
+        
+        return JsonSerializer.Deserialize<T>(response, JsonSerializerHelper.GetOptionsWithConverters<T>());
     }
 
     static void ToException(ResponseStatus status, AIError? aiError) {

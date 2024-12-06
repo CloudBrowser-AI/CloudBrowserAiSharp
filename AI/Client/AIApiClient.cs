@@ -21,7 +21,7 @@ internal class AIApiClient() : ClientBase(new Uri("https://production.cloudbrows
     public Task<AIResponse> ToMarkdown(string apiKey, ToMarkdownRequestI rq, TimeSpan? timeout = null, CancellationToken ct = default) => Post<AIResponse, ToMarkdownRequestI>(apiKey, "toMarkdown", rq, timeout, ct);
 
 
-    Task<TRP> Post<TRP, TRQ>(string name, string token, TRQ rq, TimeSpan? timeout = null, CancellationToken ct = default) {
+    Task<TRP> Post<TRP, TRQ>(string token, string name, TRQ rq, TimeSpan? timeout = null, CancellationToken ct = default) {
         var cli = GetClient();
         return DoPost<TRP, TRQ>(
             $"{cli.BaseAddress}api/v1/ai/{name}",
@@ -30,7 +30,7 @@ internal class AIApiClient() : ClientBase(new Uri("https://production.cloudbrows
             timeout: timeout, ct: ct
         );
     }
-    Task<TRP> Get<TRP>(string name, string token, TimeSpan? timeout = null, CancellationToken ct = default) {
+    Task<TRP> Get<TRP>(string token, string name, TimeSpan? timeout = null, CancellationToken ct = default) {
         var cli = GetClient();
         return DoGet<TRP>(
             $"{cli.BaseAddress}api/v1/ai/{name}",

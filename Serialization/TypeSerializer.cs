@@ -13,16 +13,13 @@ internal static class TypeSerializer {
     public static string GetSchema(Type type) => GenerateSchema(type).ToJsonString();
     static JsonObject GenerateSchema(Type type) {
         JsonObject refs = [];
-        var root = GenerateSchema(type, refs);
-        JsonObject superRoot = new() {
-            ["type"] = "object",
-            ["properties"] = new JsonObject {
-                ["response"] = root
-            }
-        };
+        var wrapper = Obj(
+            new JsonObject { ["response"] = GenerateSchema(type, refs) },
+            new JsonArray(["response"])
+        );
         if (refs.Count > 0)
-            superRoot["$defs"] = refs;
-        return superRoot;
+            wrapper["$defs"] = refs;
+        return wrapper;
     }
     static JsonObject GenerateSchema(Type type, JsonObject refs) {
         if (type.IsEnum)
@@ -86,17 +83,11 @@ internal static class TypeSerializer {
     }
     static JsonObject GenerateArraySchema(Type type, JsonObject refs) {
         var elementType = type.GetElementType() ?? typeof(string);
-        return new() {
-            ["type"] = "array",
-            ["items"] = GenerateSchema(elementType, refs)
-        };
+        return Arr(GenerateSchema(elementType, refs));
     }
     static JsonObject GenerateEnumerableSchema(Type type, JsonObject refs) {
         var elementType = type.GetGenericArguments()[0] ?? typeof(string);
-        return new() {
-            ["type"] = "array",
-            ["items"] = GenerateSchema(elementType, refs)
-        };
+        return Arr(GenerateSchema(elementType, refs));
     }
     static JsonObject GenerateDictionarySchema(Type type, JsonObject refs) {
         if (!type.IsGenericType)
@@ -106,16 +97,17 @@ internal static class TypeSerializer {
         if (types.Length != 2)
             throw new InvalidOperationException($"Incompatible dictionary {type.FullName}");
 
-        if (types[0] != typeof(string))
-            throw new InvalidOperationException($"throw new ArgumentException($\"Dictionaries must have a string key. {type.FullName} violates this rule.");
+        //if (types[0] != typeof(string))
+        //    throw new InvalidOperationException($"throw new ArgumentException($\"Dictionaries must have a string key. {type.FullName} violates this rule.");
 
         var elementType = Nullable.GetUnderlyingType(types[1]) ?? types[1];
-        return new() {
-            ["type"] = "object",
-            ["additionalProperties"] = GenerateSchema(elementType, refs)
-        };
+        return Arr(
+            Obj(new JsonObject() {
+                ["key"] = GenerateSchema(types[0], refs),
+                ["value"] = GenerateSchema(types[1], refs),
+            }, new(["key", "value"]))
+        );
     }
-
     static JsonObject GenerateClassSchema(Type type, JsonObject refs) {
         if (refs.ContainsKey(type.FullName))
             return CreateReference(type.FullName);
@@ -166,5 +158,20 @@ internal static class TypeSerializer {
             return info.FieldType;
 
         return ((PropertyInfo)member).PropertyType;
+    }
+
+    static JsonObject Obj(JsonObject properties, JsonArray required) {
+        return new() {
+            ["type"] = "object",
+            ["properties"] = properties,
+            ["required"] = required,
+            ["additionalProperties"] = false
+        };
+    }
+    static JsonObject Arr(JsonObject items) {
+        return new() {
+            ["type"] = "array",
+            ["items"] = items
+        };
     }
 }

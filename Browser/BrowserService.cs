@@ -5,7 +5,7 @@ using CloudBrowserClient.Browser.Client;
 using CloudBrowserClient.Browser.Types;
 using CloudBrowserClient.Browser.Types.Response;
 
-namespace CloudBrowserClient.Browser;
+namespace CloudBrowserClient;
 
 public class BrowserService(string _apiToken){
 

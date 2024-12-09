@@ -7,7 +7,7 @@ using CloudBrowserClient.AI.Types.Response;
 using CloudBrowserClient.Serialization;
 using CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-namespace CloudBrowserClient.AI;
+namespace CloudBrowserClient;
 
 public class AIService(string _apiToken, AIOptions defaultAIOptions = null) {
 

@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CloudBrowserClient.Session.Types.Request;
-public class RemoveRequest {
+internal class RemoveRequest {
     public string Label { get; set; }
+
+    public RemoveRequest(string label) {
+        Label = label;
+    }
 }

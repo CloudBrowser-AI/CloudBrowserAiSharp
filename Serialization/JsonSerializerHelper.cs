@@ -8,10 +8,9 @@ using System.Linq;
 
 namespace CloudBrowserClient.Serialization;
 
-
 internal static class JsonSerializerHelper {
     public static JsonSerializerOptions GetOptionsWithConverters<T>() {
-        JsonSerializerOptions options = new ();
+        JsonSerializerOptions options = new();
         HashSet<Type> visitedTypes = [];
         var idictionaryTypes = GetIDictionaryTypes(typeof(T), visitedTypes);
 

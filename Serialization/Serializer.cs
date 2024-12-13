@@ -22,7 +22,7 @@ internal static class Serializer {
 
     public static T ToObject<T>(string response, ResponseStatus status, AIError? aIError = null) {
         ToException(status, aIError);
-        
+
         return JsonSerializer.Deserialize<T>(response, JsonSerializerHelper.GetOptionsWithConverters<T>());
     }
 

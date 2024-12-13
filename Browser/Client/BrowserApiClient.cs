@@ -1,6 +1,7 @@
 ﻿using CloudBrowserClient.Browser.Types;
 using CloudBrowserClient.Browser.Types.Request;
 using CloudBrowserClient.Browser.Types.Response;
+using CloudBrowserClient.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,8 +10,6 @@ using System.Threading.Tasks;
 namespace CloudBrowserClient.Browser.Client;
 
 internal class BrowserApiClient() : ClientBase(new Uri("https://production.cloudbrowser.ai")) {
-
-    public Uri BaseAddress { get => GetClient().BaseAddress; set => GetClient().BaseAddress = value; }
 
     public Task<OpenResponse> Open(string token, BrowserOptions rq = null, TimeSpan? timeout = null, CancellationToken ct = default) => Post<OpenResponse, BrowserOptions>("Open", token, rq, timeout, ct);
     public Task<SimpleResponse> Close(string token, CloseRequest rq = null, TimeSpan? timeout = null, CancellationToken ct = default) => Post<SimpleResponse, CloseRequest>("Close", token, rq, timeout, ct);

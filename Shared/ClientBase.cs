@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 
-namespace CloudBrowserClient;
+namespace CloudBrowserClient.Shared;
 
 internal static class Json {
     public const string MediaType = "application/json";
@@ -40,6 +40,8 @@ internal static class Json {
 }
 
 internal abstract class ClientBase(Uri baseAddress) {
+
+    public Uri BaseAddress { get => GetClient().BaseAddress; set => GetClient().BaseAddress = value; }
 
     protected HttpClient httpClient { get; set; } = new() {
         BaseAddress = baseAddress

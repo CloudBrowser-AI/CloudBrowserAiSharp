@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
-namespace CloudBrowserClient.Serialization;
+namespace CloudBrowserAiSharp.Serialization;
 
 internal class KeyValuePairConverter<TKey, TValue> : JsonConverter<Dictionary<TKey, TValue>> {
     public override Dictionary<TKey, TValue> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {

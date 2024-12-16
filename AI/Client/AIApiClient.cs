@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CloudBrowserClient.AI.Types.Response;
-using CloudBrowserClient.Shared;
+using CloudBrowserAiSharp.AI.Types.Response;
+using CloudBrowserAiSharp.Shared;
 using CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-namespace CloudBrowserClient.AI.Client;
+namespace CloudBrowserAiSharp.AI.Client;
 
 internal class AIApiClient() : ClientBase(new Uri("https://production.cloudbrowser.ai")) {
 

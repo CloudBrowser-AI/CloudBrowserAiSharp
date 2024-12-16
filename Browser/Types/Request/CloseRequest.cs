@@ -1,4 +1,4 @@
-﻿namespace CloudBrowserClient.Browser.Types.Request;
+﻿namespace CloudBrowserAiSharp.Browser.Types.Request;
 
 internal class CloseRequest {
     public string Address { get; set; }

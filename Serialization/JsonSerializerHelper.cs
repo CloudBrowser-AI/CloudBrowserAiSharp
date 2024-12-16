@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Collections;
 using System.Linq;
 
-namespace CloudBrowserClient.Serialization;
+namespace CloudBrowserAiSharp.Serialization;
 
 internal static class JsonSerializerHelper {
     public static JsonSerializerOptions GetOptionsWithConverters<T>() {

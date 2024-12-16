@@ -1,11 +1,11 @@
-﻿using CloudBrowserClient.Session.Client;
-using CloudBrowserClient.Session.Types.Request;
-using CloudBrowserClient.Session.Types.Response;
+﻿using CloudBrowserAiSharp.Session.Client;
+using CloudBrowserAiSharp.Session.Types.Request;
+using CloudBrowserAiSharp.Session.Types.Response;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient;
+namespace CloudBrowserAiSharp;
 public class SessionService(string _apiToken) {
     readonly SessionApiClient _client = new();
     public Uri BaseAddress { get => _client.BaseAddress; set => _client.BaseAddress = value; }

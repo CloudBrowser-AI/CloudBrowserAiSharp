@@ -1,4 +1,4 @@
-﻿namespace CloudBrowserClient.Browser.Types.Response;
+﻿namespace CloudBrowserAiSharp.Browser.Types.Response;
 
 public class OpenResponse {
     public ResponseStatus Status { get; set; }

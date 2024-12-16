@@ -1,13 +1,13 @@
-﻿using CloudBrowserClient.Browser.Types;
-using CloudBrowserClient.Browser.Types.Request;
-using CloudBrowserClient.Browser.Types.Response;
-using CloudBrowserClient.Shared;
+﻿using CloudBrowserAiSharp.Browser.Types;
+using CloudBrowserAiSharp.Browser.Types.Request;
+using CloudBrowserAiSharp.Browser.Types.Response;
+using CloudBrowserAiSharp.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Browser.Client;
+namespace CloudBrowserAiSharp.Browser.Client;
 
 internal class BrowserApiClient() : ClientBase(new Uri("https://production.cloudbrowser.ai")) {
 

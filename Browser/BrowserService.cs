@@ -1,11 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CloudBrowserClient.Browser.Client;
-using CloudBrowserClient.Browser.Types;
-using CloudBrowserClient.Browser.Types.Response;
+using CloudBrowserAiSharp.Browser.Client;
+using CloudBrowserAiSharp.Browser.Types;
+using CloudBrowserAiSharp.Browser.Types.Response;
 
-namespace CloudBrowserClient;
+namespace CloudBrowserAiSharp;
 
 public class BrowserService(string _apiToken){
 

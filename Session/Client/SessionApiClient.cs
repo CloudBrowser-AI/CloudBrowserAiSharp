@@ -1,15 +1,15 @@
-﻿using CloudBrowserClient.Browser.Types;
-using CloudBrowserClient.Browser.Types.Request;
-using CloudBrowserClient.Browser.Types.Response;
-using CloudBrowserClient.Session.Types.Request;
-using CloudBrowserClient.Session.Types.Response;
-using CloudBrowserClient.Shared;
+﻿using CloudBrowserAiSharp.Browser.Types;
+using CloudBrowserAiSharp.Browser.Types.Request;
+using CloudBrowserAiSharp.Browser.Types.Response;
+using CloudBrowserAiSharp.Session.Types.Request;
+using CloudBrowserAiSharp.Session.Types.Response;
+using CloudBrowserAiSharp.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Session.Client;
+namespace CloudBrowserAiSharp.Session.Client;
 
 internal class SessionApiClient() : ClientBase(new Uri("https://production.cloudbrowser.ai")) {
 

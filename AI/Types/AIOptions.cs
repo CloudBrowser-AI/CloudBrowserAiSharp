@@ -1,6 +1,6 @@
 ﻿
 
-namespace CloudBrowserClient.AI.Types;
+namespace CloudBrowserAiSharp.AI.Types;
 
 public class AIOptions {
     public OpenAIConfiguration OpenAIConfiguration { get; set; }

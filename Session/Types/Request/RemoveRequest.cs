@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Session.Types.Request;
+namespace CloudBrowserAiSharp.Session.Types.Request;
 internal class RemoveRequest {
     public string Label { get; set; }
 

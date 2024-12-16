@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Session.Types.Response;
+namespace CloudBrowserAiSharp.Session.Types.Response;
 
 public class ListResponse {
     public bool Success { get; set; }

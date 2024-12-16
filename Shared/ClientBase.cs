@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 
-namespace CloudBrowserClient.Shared;
+namespace CloudBrowserAiSharp.Shared;
 
 internal static class Json {
     public const string MediaType = "application/json";

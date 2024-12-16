@@ -1,6 +1,6 @@
-﻿using CloudBrowserClient.Browser.Types;
+﻿using CloudBrowserAiSharp.Browser.Types;
 
-namespace CloudBrowserClient.AI.Types.Response;
+namespace CloudBrowserAiSharp.AI.Types.Response;
 
 public enum AIError : byte {
     UNKNOWN = 0,

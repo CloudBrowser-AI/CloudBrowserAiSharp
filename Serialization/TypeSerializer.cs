@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Data;
 using System.Collections;
 
-namespace CloudBrowserClient.Serialization;
+namespace CloudBrowserAiSharp.Serialization;
 internal static class TypeSerializer {
     public static string GetSchema<T>() => GetSchema(typeof(T));
     public static string GetSchema(Type type) => GenerateSchema(type).ToJsonString();

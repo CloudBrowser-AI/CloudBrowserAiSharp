@@ -1,4 +1,4 @@
-﻿namespace CloudBrowserClient.Browser.Types;
+﻿namespace CloudBrowserAiSharp.Browser.Types;
 
 public enum ResponseStatus {
     Unknown = 0,

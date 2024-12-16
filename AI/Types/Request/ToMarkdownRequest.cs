@@ -1,4 +1,4 @@
-﻿using CloudBrowserClient.AI.Types;
+﻿using CloudBrowserAiSharp.AI.Types;
 
 namespace CloudBrowserPublicApi.Shared.Data.AI.Request;
 

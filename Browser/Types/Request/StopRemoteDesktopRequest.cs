@@ -1,4 +1,4 @@
-﻿namespace CloudBrowserClient.Browser.Types.Request;
+﻿namespace CloudBrowserAiSharp.Browser.Types.Request;
 
 internal class StopRemoteDesktopRequest {
     public string Address { get; set; }

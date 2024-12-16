@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CloudBrowserClient.AI.Client;
-using CloudBrowserClient.AI.Types;
-using CloudBrowserClient.AI.Types.Response;
-using CloudBrowserClient.Serialization;
+using CloudBrowserAiSharp.AI.Client;
+using CloudBrowserAiSharp.AI.Types;
+using CloudBrowserAiSharp.AI.Types.Response;
+using CloudBrowserAiSharp.Serialization;
 using CloudBrowserPublicApi.Shared.Data.AI.Request;
 
-namespace CloudBrowserClient;
+namespace CloudBrowserAiSharp;
 
 public class AIService(string _apiToken, AIOptions defaultAIOptions = null) {
 

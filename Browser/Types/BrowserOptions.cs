@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CloudBrowserClient.Browser.Types;
+namespace CloudBrowserAiSharp.Browser.Types;
 
 public class BrowserOptions {
     public string[] Args { get; set; }

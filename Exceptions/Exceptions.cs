@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudBrowserClient.Exceptions;
+namespace CloudBrowserAiSharp.Exceptions;
 
 public class AuthorizationException : Exception {
 

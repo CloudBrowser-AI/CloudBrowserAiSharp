@@ -1,11 +1,11 @@
-﻿using CloudBrowserClient.AI.Types.Response;
-using CloudBrowserClient.Browser.Types;
-using CloudBrowserClient.Exceptions;
+﻿using CloudBrowserAiSharp.AI.Types.Response;
+using CloudBrowserAiSharp.Browser.Types;
+using CloudBrowserAiSharp.Exceptions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CloudBrowserClient.Serialization;
+namespace CloudBrowserAiSharp.Serialization;
 internal static class Serializer {
     public static string ToResponseFormat<T>() => TypeSerializer.GetSchema<T>();
 

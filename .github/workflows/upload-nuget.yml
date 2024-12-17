@@ -19,4 +19,4 @@ jobs:
       RUNTIME: linux-x64
       ADDITIONAL_PROPERTIES: ""
     secrets:
-      GPACKAGES_TOKEN: ${{secrets.NUGET_API_KEY}}
+      NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}

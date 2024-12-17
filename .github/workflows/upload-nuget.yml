@@ -67,17 +67,7 @@ jobs:
                        /p:DebugType=portable \
                        /p:SymbolPackageFormat=snupkg \
                        /p:VersionPrefix=$SOURCE_TAG
-
-      - name: Pack
-        run: |
-          dotnet pack ${{ env.DOTNET_CSPROJ }} \
-                      -c ${{ env.CONFIGURATION }} \
-                      /p:VersionPrefix=$SOURCE_TAG \
-                      /p:GenerateAssemblyInfo=true \
-                      /p:DebugSymbols=true \
-                      /p:DebugType=portable \
-                      /p:SymbolPackageFormat=snupkg \
-                      --output nupkg-tmp/
+                       --output nupkg-tmp/
 
       - name: Publish package to NuGet.org
         env:

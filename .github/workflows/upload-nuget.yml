@@ -18,7 +18,7 @@ env:
 
 jobs:
   generate-nuget-and-push:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     
     steps:
@@ -29,13 +29,6 @@ jobs:
           #lfs: true
           clean: true
           fetch-depth: 0 # Required, without this get_previous_tag action won't be able to find any or the correct tags
-
-      - name: Check initial folder
-        run: |
-          echo "Checked out code"
-          ls -la
-          echo $PWD
-          echo ${GITHUB_WORKSPACE}/src
           
       - name: Extract Git Branch information
         id: branch_name
@@ -66,7 +59,7 @@ jobs:
           echo "VERSION=${{ steps.get_previous_tag.outputs.tag }}" >> $GITHUB_OUTPUT
          
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v1

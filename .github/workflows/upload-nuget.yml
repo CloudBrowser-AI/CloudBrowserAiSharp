@@ -1,0 +1,22 @@
+name: Generate NuGet and push to Nuget.org
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*.*.*'
+      - 'v*.*.*'
+
+jobs:
+  simple-job-for-reuse-workflow:
+    uses: HustleGotReal/reusable-workflows/.github/workflows/makenugets.yml@master
+    with:
+      DOTNET_PROJECT: CloudBrowserAiSharp.Client
+      DOTNET_CSPROJ: ./src/CloudBrowserAiSharp.Client/CloudBrowserAiSharp.Client.csproj
+      RESTORE_SOURCES: --source https://api.nuget.org/v3/index.json
+      CONFIGURATION: Release
+      FRAMEWORK: net8.0
+      RUNTIME: linux-x64
+      ADDITIONAL_PROPERTIES: ""
+    secrets:
+      GPACKAGES_TOKEN: ${{secrets.NUGET_API_KEY}}

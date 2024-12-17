@@ -67,7 +67,8 @@ jobs:
                        /p:DebugType=portable \
                        /p:SymbolPackageFormat=snupkg \
                        /p:VersionPrefix=$SOURCE_TAG
-                       --output nupkg-tmp/
+          mkdir -p nupkg-tmp
+          mv $(dirname ${{ env.DOTNET_CSPROJ }})/bin/${{ env.CONFIGURATION }}/* nupkg-tmp/
 
       - name: Publish package to NuGet.org
         env:

@@ -8,8 +8,8 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_PROJECT: CloudBrowserAiSharp.Client
-  DOTNET_CSPROJ: ./src/CloudBrowserAiSharp.Client/CloudBrowserAiSharp.Client.csproj
+  DOTNET_PROJECT: CloudBrowserAiSharp
+  DOTNET_CSPROJ: ./CloudBrowserAiSharp.csproj
   RESTORE_SOURCES: --source https://api.nuget.org/v3/index.json
   CONFIGURATION: Release
   FRAMEWORK: net8.0

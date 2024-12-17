@@ -25,39 +25,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          #submodules: false
-          #lfs: true
           clean: true
-          fetch-depth: 0 # Required, without this get_previous_tag action won't be able to find any or the correct tags
-          
-      - name: Extract Git Branch information
-        id: branch_name
-        run: |
-          MBRANCH=${GITHUB_REF#refs/*/}
-          if [[ $MBRANCH == feature/* ]]; then
-            BRANCH="a-${MBRANCH#feature/}.$(date +%Y%m%d%H%M)"
-          elif [[ $MBRANCH == "master" ]] || [[ $MBRANCH == "main" ]]; then
-            BRANCH="" ;
-          else
-            BRANCH="${MBRANCH}.$(date +%Y%m%d%H%M)"
-          fi
-          echo "BRANCH: $BRANCH";
-          echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
-          echo "Started by: $GITHUB_ACTOR | SHA: $GITHUB_SHA | Tag: ${GITHUB_REF#refs/tags/}"
+          fetch-depth: 0 # Required for proper tag discovery
 
-      - name: Get Previous Tag
-        id: get_previous_tag
-        #uses: WyriHaximus/github-action-get-previous-tag@v1
+      - name: Extract Git Branch or Tag Information
+        id: extract_info
         run: |
-          VERSIONPROPS=$(cat Directory.Build.props | grep "<VersionPrefix>" | cut -d ">" -f2 | cut -d "<" -f1)
-          echo "tag=$VERSIONPROPS" >> $GITHUB_OUTPUT
-        
-      - name: Set VERSION variable from Directory.Build.props
-        id: version_num
-        run: |
-          echo VERSION: ${{ steps.get_previous_tag.outputs.tag }}
-          echo "VERSION=${{ steps.get_previous_tag.outputs.tag }}" >> $GITHUB_OUTPUT
-         
+          # Extract the tag or branch name
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            SOURCE_TAG=${GITHUB_REF#refs/tags/}
+          else
+            MBRANCH=${GITHUB_REF#refs/heads/}
+            SOURCE_TAG="${MBRANCH}-$(date +%s)"
+          fi
+          echo "SOURCE_TAG=$SOURCE_TAG" >> $GITHUB_ENV
+          echo "Detected source tag: $SOURCE_TAG"
+
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2.0.1
 
@@ -68,16 +51,33 @@ jobs:
        
       - name: Restore
         run: |
-             dotnet restore /property:Configuration=${{ inputs.CONFIGURATION }} /property:TargetFramework=${{ inputs.FRAMEWORK }} --runtime ${{ inputs.RUNTIME }} \
-             ${{ inputs.DOTNET_CSPROJ }} --source https://nuget.pkg.github.com/HustleGotReal/index.json ${{ inputs.RESTORE_SOURCES }}
-        
+          dotnet restore /property:Configuration=${{ env.CONFIGURATION }} \
+                         /property:TargetFramework=${{ env.FRAMEWORK }} \
+                         --runtime ${{ env.RUNTIME }} \
+                         ${{ env.DOTNET_CSPROJ }} ${{ env.RESTORE_SOURCES }}
+
       - name: Build
         run: |
-             dotnet build -f ${{ inputs.FRAMEWORK }} -r ${{ inputs.RUNTIME }} ${{ inputs.DOTNET_CSPROJ }} /property:Configuration=${{ inputs.CONFIGURATION }} ${{ inputs.ADDITIONAL_PROPERTIES }} /p:DebugSymbols=true /p:DebugType=portable /p:SymbolPackageFormat=snupkg \
-             /p:VersionPrefix=${{ steps.version_num.outputs.VERSION }} /p:VersionSuffix=${{ steps.branch_name.outputs.BRANCH }}
+          dotnet build -f ${{ env.FRAMEWORK }} \
+                       -r ${{ env.RUNTIME }} \
+                       ${{ env.DOTNET_CSPROJ }} \
+                       /property:Configuration=${{ env.CONFIGURATION }} \
+                       ${{ env.ADDITIONAL_PROPERTIES }} \
+                       /p:DebugSymbols=true \
+                       /p:DebugType=portable \
+                       /p:SymbolPackageFormat=snupkg \
+                       /p:VersionPrefix=$SOURCE_TAG
 
       - name: Pack
-        run: dotnet pack ${{ inputs.DOTNET_CSPROJ }} -c ${{ inputs.CONFIGURATION }} /p:VersionPrefix=${{ steps.version_num.outputs.VERSION }} /p:VersionSuffix=${{ steps.branch_name.outputs.BRANCH }} /p:GenerateAssemblyInfo=true /p:DebugSymbols=true /p:DebugType=portable /p:SymbolPackageFormat=snupkg --output nupkg-tmp/
+        run: |
+          dotnet pack ${{ env.DOTNET_CSPROJ }} \
+                      -c ${{ env.CONFIGURATION }} \
+                      /p:VersionPrefix=$SOURCE_TAG \
+                      /p:GenerateAssemblyInfo=true \
+                      /p:DebugSymbols=true \
+                      /p:DebugType=portable \
+                      /p:SymbolPackageFormat=snupkg \
+                      --output nupkg-tmp/
 
       - name: Publish package to NuGet.org
         env:

@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace CloudBrowserAiSharp.Session.Types.Response;
 public class RemoveResponse {
+    /// <summary>
+    /// Indicates whether the operation was successful.
+    /// </summary>
     public bool Success { get; set; }
+
+    /// <summary>
+    /// Contains error details if the operation failed.
+    /// </summary>
     public ErrorSession Error { get; set; }
 }

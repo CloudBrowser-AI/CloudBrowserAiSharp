@@ -21,18 +21,16 @@ internal class AIApiClient() : ClientBase(new Uri("https://production.cloudbrows
 
 
     Task<TRP> Post<TRP, TRQ>(string token, string name, TRQ rq, TimeSpan? timeout = null, CancellationToken ct = default) {
-        var cli = GetClient();
         return DoPost<TRP, TRQ>(
-            $"{cli.BaseAddress}api/v1/ai/{name}",
+            $"{BaseAddress}api/v1/ai/{name}",
             rq,
             new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } },
             timeout: timeout, ct: ct
         );
     }
     Task<TRP> Get<TRP>(string token, string name, TimeSpan? timeout = null, CancellationToken ct = default) {
-        var cli = GetClient();
         return DoGet<TRP>(
-            $"{cli.BaseAddress}api/v1/ai/{name}",
+            $"{BaseAddress}api/v1/ai/{name}",
             new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } },
             timeout: timeout, ct: ct
         );

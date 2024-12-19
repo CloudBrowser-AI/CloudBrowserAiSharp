@@ -19,18 +19,16 @@ internal class BrowserApiClient() : ClientBase(new Uri("https://production.cloud
 
 
     Task<TRP> Post<TRP, TRQ>(string name, string token, TRQ rq, TimeSpan? timeout = null, CancellationToken ct = default) {
-        var cli = GetClient();
         return DoPost<TRP, TRQ>(
-            $"{cli.BaseAddress}api/v1/browser/{name}",
+            $"{BaseAddress}api/v1/browser/{name}",
             rq,
             new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } },
             timeout: timeout, ct: ct
         );
     }
     Task<TRP> Get<TRP>(string name, string token, TimeSpan? timeout = null, CancellationToken ct = default) {
-        var cli = GetClient();
         return DoGet<TRP>(
-            $"{cli.BaseAddress}api/v1/browser/{name}",
+            $"{BaseAddress}api/v1/browser/{name}",
             new Dictionary<string, string> { { "Authorization", $"Bearer {token}" } },
             timeout: timeout, ct: ct
         );

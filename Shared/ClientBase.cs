@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
+using System.Collections.Concurrent;
 
 namespace CloudBrowserAiSharp.Shared;
 
@@ -41,13 +42,23 @@ internal static class Json {
 
 internal abstract class ClientBase(Uri baseAddress) {
 
-    public Uri BaseAddress { get => GetClient().BaseAddress; set => GetClient().BaseAddress = value; }
+    public Uri BaseAddress { get => GetClient().BaseAddress; set => SetBaseAddress(value); }
 
-    protected HttpClient httpClient { get; set; } = new() {
+    protected HttpClient HttpClient { get; set; } = new() {
         BaseAddress = baseAddress
     };
+    readonly ConcurrentDictionary<TimeSpan, HttpClient> nonDefaultClients = [];
 
-    protected string BaseUrl => GetClient()?.BaseAddress?.ToString().TrimEnd('/') ?? "";
+    void SetBaseAddress(Uri newBaseAddress) {
+        HttpClient.BaseAddress = newBaseAddress;
+        foreach (var key in nonDefaultClients.Keys) {
+            try {
+                if (nonDefaultClients.TryGetValue(key, out var client)) {
+                    client.BaseAddress = newBaseAddress;
+                }
+            } catch { }
+        }
+    }
 
     static HttpRequestMessage GenerateMessage(string url, IDictionary<string, string> addedHeaders = null, HttpMethod method = null) {
         HttpRequestMessage httpRequestMessage = new() {
@@ -91,7 +102,7 @@ internal abstract class ClientBase(Uri baseAddress) {
         return copy;
     }
 
-    static async Task<HttpResponseMessage> ReadLogic(HttpClient cli, HttpRequestMessage rq, CancellationToken ct, Type expectedResponseType = null) {
+    static async Task<HttpResponseMessage> ReadLogic(HttpClient cli, HttpRequestMessage rq, CancellationToken ct) {
         Stopwatch sw = Stopwatch.StartNew();
         try {
             Task<HttpResponseMessage> rsT = cli.SendAsync(rq, HttpCompletionOption.ResponseContentRead, ct);
@@ -137,7 +148,7 @@ internal abstract class ClientBase(Uri baseAddress) {
 
     static async Task<TOutput> Read<TOutput>(HttpClient cli, HttpRequestMessage rq, CancellationToken ct) {
         ct.ThrowIfCancellationRequested();
-        HttpResponseMessage httpResponseMessage = await ReadLogic(cli, rq, ct, typeof(TOutput)).ConfigureAwait(false);
+        HttpResponseMessage httpResponseMessage = await ReadLogic(cli, rq, ct).ConfigureAwait(false);
         if (httpResponseMessage == null) {
             return default;
         }
@@ -150,22 +161,19 @@ internal abstract class ClientBase(Uri baseAddress) {
         return "deflate";
     }
 
-    TimeSpan Timeout(TimeSpan? timeout) {
-        return timeout ?? TimeSpan.FromMinutes(2);
-    }
 
-    protected HttpClient GetClient() {
-        return httpClient ?? new HttpClient();
+    HttpClient GetClient() {
+        return HttpClient;
     }
-
-    protected HttpClient GetClient(TimeSpan? timeout) {
-        if (!timeout.HasValue || timeout == TimeSpan.FromMinutes(2)) {
+    HttpClient GetClient(TimeSpan? timeout) {
+        if (!timeout.HasValue || timeout == HttpClient?.Timeout) {
             return GetClient();
         }
 
-        HttpClient httpClient = new();
-        httpClient.Timeout = timeout.GetValueOrDefault();
-        return httpClient;
+        return nonDefaultClients.GetOrAdd(timeout.GetValueOrDefault(), _ => new() {
+            Timeout = timeout.GetValueOrDefault(),
+            BaseAddress = HttpClient.BaseAddress
+        });
     }
 
     protected async Task<TOutput> DoGet<TOutput>(string url, IDictionary<string, string> addedHeaders = null, TimeSpan? timeout = null, CancellationToken ct = default) {

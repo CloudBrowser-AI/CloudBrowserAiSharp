@@ -8,6 +8,9 @@ public class TranslateRequestT {
     public string IsoLang { get; set; }
 }
 public class TranslateRequest: TranslateRequestT {
+    /// <summary>
+    /// The format in which the AI should provide the response.
+    /// </summary>
     public string ResponseFormat { get; set; }
 }
 

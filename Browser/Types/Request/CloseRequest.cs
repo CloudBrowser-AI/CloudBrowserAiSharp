@@ -5,8 +5,7 @@ internal class CloseRequest {
 
     public CloseRequest() { }
 
-    public CloseRequest(string address)
-    {
+    public CloseRequest(string address) {
         Address = address;
     }
 }

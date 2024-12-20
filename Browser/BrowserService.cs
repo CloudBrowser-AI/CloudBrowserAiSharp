@@ -11,7 +11,7 @@ namespace CloudBrowserAiSharp;
 /// Service to communicate with the Browser API from Cloudbrowser.AI
 /// </summary>
 /// <param name="apiToken">The API token for authentication.</param>
-public class BrowserService(string apiToken) {
+public class BrowserService(string apiToken): IDisposable {
 
     readonly BrowserApiClient _client = new();
 
@@ -59,5 +59,12 @@ public class BrowserService(string apiToken) {
     /// <param name="ct">Cancellation token.</param>
     public Task<StoptRemoteDesktopResponse> StopRemoteDesktop(string address, TimeSpan? timeout = null, CancellationToken ct = default) => _client.StopRemoteDesktop(apiToken, new(address), timeout: timeout, ct: ct);
 
+
+    /// <summary>
+    /// This class can produce multiple clients, which is why it is important to dispose of this object if it is not going to be used anymore.
+    /// </summary>
+    public void Dispose() {
+        _client?.Dispose();
+    }
 }
 

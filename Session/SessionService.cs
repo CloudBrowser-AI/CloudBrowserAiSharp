@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace CloudBrowserAiSharp;
-public class SessionService(string apiToken) {
+public class SessionService(string apiToken) : IDisposable {
     readonly SessionApiClient _client = new();
 
     /// <summary>
@@ -27,5 +27,12 @@ public class SessionService(string apiToken) {
     /// <param name="timeout">Optional parameter to specify a timeout for the request.</param>
     /// <param name="ct">Cancellation token.</param>
     public Task<RemoveResponse> Remove(string label, TimeSpan? timeout = null, CancellationToken ct = default) => _client.Remove(apiToken, new(label), timeout, ct);
+
+    /// <summary>
+    /// This class can produce multiple clients, which is why it is important to dispose of this object if it is not going to be used anymore.
+    /// </summary>
+    public void Dispose() {
+        _client?.Dispose();
+    }
 
 }

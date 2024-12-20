@@ -8,9 +8,13 @@ public class DescribeRequestT {
     /// </summary>
     public string Question { get; set; }
     /// <summary>
-    /// The image in Base64 format to be analyzed by the AI.
+    /// The image in Base64 format to be analyzed by the AI. If ImageUrl is set, this is not needed
     /// </summary>
     public string Base64Image { get; set; }
+    /// <summary>
+    /// The url from the image to be analyzed by the AI. If Base64Image is set, this is not needed
+    /// </summary>
+    public string ImageUrl { get; set; }
 }
 
 public class DescribeRequest: DescribeRequestT {
@@ -24,11 +28,13 @@ public class DescribeRequest: DescribeRequestT {
 internal class DescribeRequestI: AIOptions {
     public string Question { get; set; }
     public string Base64Image { get; set; }
+    public string ImageUrl { get; set; }
     public string ResponseFormat { get; set; }
 
     public DescribeRequestI(DescribeRequest rq, AIOptions options) : base(options) {
         Question = rq.Question;
         Base64Image = rq.Base64Image;
+        ImageUrl = rq.ImageUrl;
         ResponseFormat = rq.ResponseFormat;
     }
 

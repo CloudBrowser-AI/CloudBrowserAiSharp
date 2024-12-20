@@ -40,7 +40,7 @@ internal static class Json {
     public static Task WriteToAsync<T>(Stream writer, T body, CancellationToken ct) => JsonSerializer.SerializeAsync(writer, body, typeof(T), opts, ct);
 }
 
-internal abstract class ClientBase(Uri baseAddress) {
+internal abstract class ClientBase(Uri baseAddress): IDisposable {
 
     public Uri BaseAddress { get => GetClient().BaseAddress; set => SetBaseAddress(value); }
 
@@ -196,5 +196,12 @@ internal abstract class ClientBase(Uri baseAddress) {
         rq.Method = HttpMethod.Post;
         await SerializeRequest(rq, body, ct).ConfigureAwait(false);
         await ReadLogic(cli, rq, ct).ConfigureAwait(false);
+    }
+
+    public void Dispose() {
+        HttpClient?.Dispose();
+        foreach (var v in nonDefaultClients.Values) {
+            v?.Dispose();
+        }
     }
 }

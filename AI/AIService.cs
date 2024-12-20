@@ -14,7 +14,7 @@ namespace CloudBrowserAiSharp;
 /// </summary>
 /// <param name="apiToken">The API token for authentication.</param>
 /// <param name="defaultAIOptions">The default AI options to use for requests, which can be overridden in each call if needed.</param>
-public class AIService(string apiToken, AIOptions defaultAIOptions = null) {
+public class AIService(string apiToken, AIOptions defaultAIOptions = null): IDisposable {
 
     readonly AIApiClient _client = new();
 
@@ -204,7 +204,12 @@ public class AIService(string apiToken, AIOptions defaultAIOptions = null) {
         }, aiOptions ?? defaultAIOptions), timeout, ct));
     }
 
-
+    /// <summary>
+    /// This class can produce multiple clients, which is why it is important to dispose of this object if it is not going to be used anymore.
+    /// </summary>
+    public void Dispose() {
+        _client?.Dispose();
+    }
 }
 
 

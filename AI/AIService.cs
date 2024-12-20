@@ -180,7 +180,7 @@ public class AIService(string apiToken, AIOptions defaultAIOptions = null): IDis
     /// <param name="timeout">Optional parameter to specify a timeout for the request.</param>
     /// <param name="ct">Optional parameter for a cancellation token to cancel the request if needed.</param>
     /// <returns>The deserialized AI response.</returns>
-    public Task<T> Describe<T>(DescribeRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) {
+    public Task<T> Describe<T>(DescribeRequestT rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) {
         return Serializer.ToObject<T>(_client.Describe(apiToken, new(new() {
             Base64Image = rq.Base64Image,
             ImageUrl = rq.ImageUrl,

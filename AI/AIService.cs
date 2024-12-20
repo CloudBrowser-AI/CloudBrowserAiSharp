@@ -183,6 +183,7 @@ public class AIService(string apiToken, AIOptions defaultAIOptions = null): IDis
     public Task<T> Describe<T>(DescribeRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) {
         return Serializer.ToObject<T>(_client.Describe(apiToken, new(new() {
             Base64Image = rq.Base64Image,
+            ImageUrl = rq.ImageUrl,
             Question = rq.Question,
             ResponseFormat = Serializer.ToResponseFormat<T>()
         }, aiOptions ?? defaultAIOptions), timeout, ct));

@@ -23,15 +23,20 @@ public class LabelInUseException : Exception {
 
 //AI
 
-public class AIContentFlaggedException : Exception {
+public abstract class AIException : Exception { }
+
+public class AIContentFlaggedException : AIException {
 
 }
-public class AITooLongException : Exception {
+public class AITooLongException : AIException {
 
 }
-public class AIInvalidApiKeyException : Exception {
+public class AIInvalidApiKeyException : AIException {
 
 }
-public class AIUnknownException : Exception {
+public class AIUnknownException : AIException {
+
+}
+public class AIQuotaException : AIException {
 
 }

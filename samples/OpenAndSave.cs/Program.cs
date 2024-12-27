@@ -1,5 +1,6 @@
 ﻿using CloudBrowserAiSharp;
 using CloudBrowserAiSharp.Browser.Types;
+using CloudBrowserAiSharp.Session.Types.Response;
 using PuppeteerSharp;
 
 namespace SaveAndRestoreSession;
@@ -7,7 +8,8 @@ namespace SaveAndRestoreSession;
 internal class Program {
 
     static async Task Main(string[] args) {
-        using BrowserService svc = new("YOUR CLOUDBROWSER.AI TOKEN");
+        const string token = "YOUR CLOUDBROWSER.AI TOKEN";
+        using BrowserService svc = new(token);
 
         //FIRST VISIT--------------------------------------------------------------------
         var browser = await OpenAndConnect(svc).ConfigureAwait(false);
@@ -42,11 +44,22 @@ internal class Program {
 
         await browser.CloseAsync().ConfigureAwait(false);
         Console.WriteLine("Browser closed");
+
+        //CHECK STORED SESSIONS----------------------------------------------------------
+        using SessionService sessions = new(token);
+        Console.WriteLine("Label | Created On | Last Update");
+        var sessionRp = await sessions.List().ConfigureAwait(false);
+        foreach(var s in sessionRp.Sessions) {
+            Console.WriteLine("{0} | {1} | {2}",s.Label,s.CreatedOn, s.LastUpdate);
+        }
+
+        //REMOVE ONE SESOIN
+        await sessions.Remove("test").ConfigureAwait(false);
     }
 
     static async Task<IBrowser?> OpenAndConnect(BrowserService svc) {
         var rp = await svc.Open(new() {
-            Label = "Session",
+            Label = "SessionSample",
             SaveSession = true,
             RecoverSession = true
         }).ConfigureAwait(false);

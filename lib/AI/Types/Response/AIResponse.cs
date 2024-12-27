@@ -21,7 +21,11 @@ public enum AIError : byte {
     /// <summary>
     /// The API key is invalid.
     /// </summary>
-    INVALID_API_KEY = 3
+    INVALID_API_KEY = 3,
+    /// <summary>
+    /// Not Enought quota
+    /// </summary>
+    QUOTA = 4
 }
 
 

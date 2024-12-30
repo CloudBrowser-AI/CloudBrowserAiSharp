@@ -12,13 +12,6 @@ internal class Program {
         //using default settings
         var rp = await svc.Open().ConfigureAwait(false);
 
-        if (rp.Status == ResponseStatus.Succes) {
-            Console.WriteLine("Browser requested");
-        } else { 
-            Console.WriteLine("Error requesting browser: {0}", rp.Status.ToString());
-            return;
-        }
-
         var browser = await Puppeteer.ConnectAsync(new ConnectOptions {
             BrowserWSEndpoint = rp.Address,
             DefaultViewport = null,

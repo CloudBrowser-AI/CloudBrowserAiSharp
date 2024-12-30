@@ -6,7 +6,7 @@ namespace AIQuery;
 
 internal class Program {
 
-    const string clToken = "YOUR CLOUDBROWSER.AI TOKEN";
+    const string cloudBrowserToken = "YOUR CLOUDBROWSER.AI TOKEN";
     const string openAiToken = "YOUR OPEN AI TOKEN";
 
     static async Task Main(string[] args) {
@@ -15,17 +15,13 @@ internal class Program {
 
         if (html == null) return;
 
-        using AIService ai = new(clToken, new() {
-            OpenAIConfiguration = new() {
-                ApiKey = openAiToken,
-            }
-        });
+        using AIService ai = new(cloudBrowserToken, openAiToken);
 
         //Response format can be created manually but it is easier to use a type
         //await ai.Query(new() {
-            //Html = html,
-            //Prompt = "Give me the lowest price",
-            //ResponseFormat = "{\"response\":\"number\", \"required\":[\"response\"]}"
+        //Html = html,
+        //Prompt = "Give me the lowest price",
+        //ResponseFormat = "{\"response\":\"number\", \"required\":[\"response\"]}"
         //}).ConfigureAwait(false);
 
         var rpai = await ai.Query<decimal>(new() {
@@ -37,7 +33,7 @@ internal class Program {
     }
 
     static async Task<string?> GetHTML(string address) {
-        using BrowserService svc = new(clToken);
+        using BrowserService svc = new(cloudBrowserToken);
 
         var rp = await svc.Open().ConfigureAwait(false);
 

@@ -6,15 +6,11 @@ namespace AISummarize;
 
 internal class Program {
 
-    const string clToken = "YOUR CLOUDBROWSER.AI TOKEN";
+    const string cloudBrowserToken = "YOUR CLOUDBROWSER.AI TOKEN";
     const string openAiToken = "YOUR OPEN AI TOKEN";
 
     static async Task Main(string[] args) {
-        using AIService ai = new(clToken, new() {
-            OpenAIConfiguration = new() {
-                ApiKey = openAiToken,
-            }
-        });
+        using AIService ai = new(cloudBrowserToken, openAiToken);
 
         var html = await GetHTML("http://www.cloudbrowser.ai").ConfigureAwait(false);
 
@@ -33,7 +29,7 @@ internal class Program {
     }
 
     static async Task<string?> GetHTML(string address) {
-        using BrowserService svc = new(clToken);
+        using BrowserService svc = new(cloudBrowserToken);
 
         var rp = await svc.Open().ConfigureAwait(false);
 

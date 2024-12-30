@@ -12,11 +12,38 @@ namespace CloudBrowserAiSharp;
 /// <summary>
 /// Service to communicate with the AI API from Cloudbrowser.AI
 /// </summary>
-/// <param name="apiToken">The API token for authentication.</param>
-/// <param name="defaultAIOptions">The default AI options to use for requests, which can be overridden in each call if needed.</param>
-public class AIService(string apiToken, AIOptions defaultAIOptions = null): IDisposable {
+public class AIService: IDisposable {
 
     readonly AIApiClient _client = new();
+
+    readonly string apiToken;
+    readonly AIOptions defaultAIOptions;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AIService"/> class
+    /// </summary>
+    /// <param name="apiToken">The CloudBrowser.AI API token for authentication.</param>
+    /// <param name="defaultAIOptions">The default AI options to use for requests, which can be overridden in each call if needed.</param>
+    public AIService(string apiToken, AIOptions defaultAIOptions = null) {
+        this.apiToken = apiToken;
+        this.defaultAIOptions = defaultAIOptions;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AIService"/> class
+    /// </summary>
+    /// <param name="apiToken">The CloudBrowser.AI API token for authentication.</param>
+    /// <param name="openAiToken">The OpenAI token for authentication, which can be overridden in each call if needed.</param>
+    /// <param name="openAiModel">The OpenAI model to use for requests, which can be overridden in each call if needed.</param>
+    public AIService(string apiToken, string openAiToken, string openAiModel = null) {
+        this.apiToken = apiToken;
+        this.defaultAIOptions = new() {
+            OpenAIConfiguration = new() {
+                ApiKey = openAiToken,
+                Model = openAiModel
+            }
+        };
+    }
 
     /// <summary>
     /// Gets or sets the base address of the AI API client. By default, this is the public URL of the API, but it can be changed if needed.
@@ -180,7 +207,7 @@ public class AIService(string apiToken, AIOptions defaultAIOptions = null): IDis
     /// <param name="timeout">Optional parameter to specify a timeout for the request.</param>
     /// <param name="ct">Optional parameter for a cancellation token to cancel the request if needed.</param>
     /// <returns>The deserialized AI response.</returns>
-    public Task<T> Describe<T>(DescribeRequest rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) {
+    public Task<T> Describe<T>(DescribeRequestT rq, AIOptions aiOptions = null, TimeSpan? timeout = null, CancellationToken ct = default) {
         return Serializer.ToObject<T>(_client.Describe(apiToken, new(new() {
             Base64Image = rq.Base64Image,
             ImageUrl = rq.ImageUrl,

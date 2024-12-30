@@ -32,6 +32,8 @@ public static class ExceptionHelper {
                         throw new AIContentFlaggedException();
                     case AIError.INVALID_API_KEY:
                         throw new AIInvalidApiKeyException();
+                    case AIError.QUOTA:
+                        throw new AIQuotaException();
                     case AIError.UNKNOWN:
                     case null:
                     default:

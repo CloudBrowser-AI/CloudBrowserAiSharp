@@ -6,15 +6,11 @@ namespace AITranslate;
 
 internal class Program {
 
-    const string clToken = "YOUR CLOUDBROWSER.AI TOKEN";
+    const string cloudBrowserToken = "YOUR CLOUDBROWSER.AI TOKEN";
     const string openAiToken = "YOUR OPEN AI TOKEN";
 
     static async Task Main(string[] args) {
-        using AIService ai = new(clToken, new() {
-            OpenAIConfiguration = new() {
-                ApiKey = openAiToken,
-            }
-        });
+        using AIService ai = new(cloudBrowserToken, openAiToken);
 
         var text = await GetText("http://www.cloudbrowser.ai","h1").ConfigureAwait(false);
 
@@ -34,7 +30,7 @@ internal class Program {
     }
 
     static async Task<string?> GetText(string address, string selector) {
-        using BrowserService svc = new(clToken);
+        using BrowserService svc = new(cloudBrowserToken);
 
         var rp = await svc.Open().ConfigureAwait(false);
 

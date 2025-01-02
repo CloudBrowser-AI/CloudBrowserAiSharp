@@ -1,5 +1,4 @@
 ﻿using CloudBrowserAiSharp;
-using PuppeteerSharp;
 using System.Text.RegularExpressions;
 
 namespace RemoteDesktop;
@@ -17,12 +16,6 @@ internal class Program {
             return;
         }
 
-        var browser = await Puppeteer.ConnectAsync(new() {
-            BrowserWSEndpoint = rp.Address,
-            DefaultViewport = null,
-            AcceptInsecureCerts = true,
-            SlowMo = 0
-        }).ConfigureAwait(continueOnCapturedContext: false);
         Console.WriteLine("Browser connected");
 
         var rmt = await svc.StartRemoteDesktop(rp.Address).ConfigureAwait(false);

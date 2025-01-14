@@ -8,7 +8,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_PROJECT: CloudBrowserAiSharp
+  DOTNET_PROJECT: CloudBrowserAi
   DOTNET_CSPROJ: ./lib/CloudBrowserAiSharp.csproj
   RESTORE_SOURCES: --source https://api.nuget.org/v3/index.json
   CONFIGURATION: Release

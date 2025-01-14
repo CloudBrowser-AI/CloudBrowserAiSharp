@@ -67,6 +67,7 @@ jobs:
                        /p:DebugType=portable \
                        /p:SymbolPackageFormat=snupkg \
                        /p:VersionPrefix=$SOURCE_TAG
+                       /p:PackageId=${{ env.DOTNET_PROJECT }}
           mkdir -p nupkg-tmp
           mv $(dirname ${{ env.DOTNET_CSPROJ }})/bin/${{ env.CONFIGURATION }}/* nupkg-tmp/
 

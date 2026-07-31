@@ -35,6 +35,11 @@ public class BrowserOptions {
     public SupportedBrowser? Browser { get; set; }
 
     /// <summary>
+    /// Browser build version to launch. If null, CloudBrowser.AI will use the configured channel.
+    /// </summary>
+    public string BuildVersion { get; set; }
+
+    /// <summary>
     /// Proxy settings for the browser. If null, CloudBrowser.AI will assign one proxy
     /// </summary>
     public BrowserOptionsProxy Proxy { get; set; }

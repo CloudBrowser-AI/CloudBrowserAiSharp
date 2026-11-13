@@ -13,7 +13,7 @@ env:
   RESTORE_SOURCES: --source https://api.nuget.org/v3/index.json
   CONFIGURATION: Release
   FRAMEWORK: net8.0
-  RUNTIME: linux-x64
+  # Do not pass a runtime identifier (-r/--runtime): it makes the DLL x64-only, and arm64 processes cannot load it.
   ADDITIONAL_PROPERTIES: ""
 
 jobs:
@@ -53,13 +53,11 @@ jobs:
         run: |
           dotnet restore /property:Configuration=${{ env.CONFIGURATION }} \
                          /property:TargetFramework=${{ env.FRAMEWORK }} \
-                         --runtime ${{ env.RUNTIME }} \
                          ${{ env.DOTNET_CSPROJ }} ${{ env.RESTORE_SOURCES }}
 
       - name: Build
         run: |
           dotnet build -f ${{ env.FRAMEWORK }} \
-                       -r ${{ env.RUNTIME }} \
                        ${{ env.DOTNET_CSPROJ }} \
                        /property:Configuration=${{ env.CONFIGURATION }} \
                        ${{ env.ADDITIONAL_PROPERTIES }} \

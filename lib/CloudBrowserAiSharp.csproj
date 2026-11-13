@@ -7,6 +7,8 @@
     <PackageDescription>Client for connection with CloudBrowser.</PackageDescription>
     <PackageTags>puppeteersharp cloudbrowser connector</PackageTags>
     <Platforms>AnyCPU;ARM64</Platforms>
+    <!-- Keep the DLL CPU-neutral, also when a build passes a runtime identifier or a CPU platform. -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

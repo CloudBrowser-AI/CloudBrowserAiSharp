@@ -20,7 +20,10 @@ jobs:
   generate-nuget-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+    permissions:
+      contents: read
+      id-token: write # GitHub OIDC token for nuget.org Trusted Publishing
+
     steps:
       - name: Checkout code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -68,7 +71,14 @@ jobs:
           mkdir -p nupkg-tmp
           mv $(dirname ${{ env.DOTNET_CSPROJ }})/bin/${{ env.CONFIGURATION }}/* nupkg-tmp/
 
+      # Trusted Publishing: nuget.org gives a temporary API key (valid 1 hour) for this run. No stored key.
+      - name: NuGet login (OIDC to a temporary API key)
+        id: nuget_login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: cloudbrowser
+
       - name: Publish package to NuGet.org
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
         run: dotnet nuget push ./nupkg-tmp/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY
